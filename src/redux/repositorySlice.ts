@@ -6,6 +6,9 @@ const repoSlice = createSlice({
   name: "repo",
   initialState,
   reducers: {
+    setTest(state, action) {
+      state.test = action.payload;
+    },
     searchRepositories(state) {
       state.loading = true;
       state.error = null;
@@ -30,4 +33,5 @@ export const {
   searchRepositories,
   searchRepositoriesSuccess,
   searchRepositoriesError,
+  setTest,
 } = repoSlice.actions;

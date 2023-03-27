@@ -1,6 +1,6 @@
-import { createStore, applyMiddleware } from "redux";
-import thunk from "redux-thunk";
+import { configureStore } from "@reduxjs/toolkit";
 import reducers from "./combinedReducers";
 // import repoReducers from "./reducers";
 
-export const store = createStore(reducers, applyMiddleware(thunk));
+// @felice: we don't need to import and set thunk in as middleware if we use configureStore as it s included as part of the default middleware included
+export const store = configureStore({ reducer: reducers });

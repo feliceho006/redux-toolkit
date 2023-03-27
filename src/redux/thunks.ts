@@ -6,11 +6,10 @@ import {
 } from "./repositorySlice";
 import { Dispatch, AnyAction } from "@reduxjs/toolkit";
 
-export const getAPIData = (term: string) => {
-  return async (dispatch: Dispatch<AnyAction>) => {
-    dispatch(searchRepositories());
-
+export const getAPIData =
+  (term: string | null) => async (dispatch: Dispatch<AnyAction>) => {
     try {
+      dispatch(searchRepositories());
       const { data } = await axios.get(
         "https://registry.npmjs.org/-/v1/search",
         {
@@ -19,9 +18,7 @@ export const getAPIData = (term: string) => {
           },
         }
       );
-      dispatch(searchRepositoriesSuccess(data));
-    } catch (e: any) {
-      dispatch(searchRepositoriesError(e.message));
-    }
+      console.log(data);
+      // dispatch(searchRepositoriesSuccess(data));
+    } catch (error) {}
   };
-};
