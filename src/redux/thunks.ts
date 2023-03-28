@@ -18,7 +18,10 @@ export const getAPIData =
           },
         }
       );
-      console.log(data);
-      // dispatch(searchRepositoriesSuccess(data));
-    } catch (error) {}
+      dispatch(
+        searchRepositoriesSuccess(data.objects.map((o: any) => o.package.name))
+      );
+    } catch (error: any) {
+      dispatch(searchRepositoriesError(error.message));
+    }
   };

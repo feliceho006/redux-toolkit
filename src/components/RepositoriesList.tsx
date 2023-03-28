@@ -4,6 +4,7 @@ import { getAPIData } from "../redux/thunks";
 import { useActions } from "../hooks/useActions";
 import { searchRepositories } from "../redux/repositorySlice";
 import { selectRepo } from "../redux/selectors";
+import { batch } from "react-redux";
 
 const RepositoriesList = () => {
   const [term, setTerm] = useState("");
@@ -11,9 +12,10 @@ const RepositoriesList = () => {
   const dispatch = useActions();
 
   const onSubmit = () => {
-    dispatch(searchRepositories());
-
-    dispatch(getAPIData(term));
+    batch(() => {
+      dispatch(searchRepositories());
+      dispatch(getAPIData(term));
+    });
   };
 
   return (
@@ -21,9 +23,9 @@ const RepositoriesList = () => {
       <input value={term} onChange={(e) => setTerm(e.target.value)} />
       <button onClick={onSubmit}>Search</button>
 
-      {error && <h3>error</h3>}
-      {loading && <h3>Loading...</h3>}
-      {!error && !loading && data.map((name) => <li>{name}</li>)}
+      {error && <h3>{error}</h3>}
+      {!error && loading && <h3>Loading...</h3>}
+      {!error && !loading && data.map((name) => <li key={name}>{name}</li>)}
     </div>
   );
 };
