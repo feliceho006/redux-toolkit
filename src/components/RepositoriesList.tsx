@@ -1,34 +1,29 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { usedTypedSelector } from "../hooks/useTypedSelector";
 import { getAPIData } from "../redux/thunks";
 import { useActions } from "../hooks/useActions";
 import { searchRepositories } from "../redux/repositorySlice";
 import { selectRepo } from "../redux/selectors";
 
-const RepositoriesList: React.FC = () => {
+const RepositoriesList = () => {
   const [term, setTerm] = useState("");
   const { data, error, loading } = usedTypedSelector(selectRepo);
   const dispatch = useActions();
-  console.log(data);
 
-  useEffect(() => {
+  const onSubmit = () => {
     dispatch(searchRepositories());
-  }, []);
 
-  // const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-  //   event.preventDefault();
-  //   getAPIData(term);
-  // };
+    dispatch(getAPIData(term));
+  };
 
   return (
     <div>
-      {/* <form onSubmit={onSubmit}>
-        <input value={term} onChange={(e) => setTerm(e.target.value)} />
-        <button>Search</button>
-      </form>
+      <input value={term} onChange={(e) => setTerm(e.target.value)} />
+      <button onClick={onSubmit}>Search</button>
+
       {error && <h3>error</h3>}
       {loading && <h3>Loading...</h3>}
-      {!error && !loading && data.map((name) => <li>{name}</li>)} */}
+      {!error && !loading && data.map((name) => <li>{name}</li>)}
     </div>
   );
 };
